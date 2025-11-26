@@ -6,14 +6,14 @@
     
     <!-- SEO 优化部分 -->
     <title>表情包切片工具 - 在线图片网格自动裁剪与打包下载</title>
-    <meta name="description" content="免费在线表情包切片工具，支持6x4、7x4等自定义网格自动裁剪。一键上传图片，智能分割并打包下载ZIP。支持去除边框间隙(Padding)，本地浏览器纯前端处理，无需上传服务器，保护隐私安全。">
+    <meta name="description" content="免费在线表情包切片工具，支持6x4、7x4等自定义网格自动裁剪。一键上传图片，智能分割并打包下载ZIP。支持点击选择特定切片下载，支持去除边框间隙(Padding)，本地浏览器纯前端处理，无需上传服务器，保护隐私安全。">
     <meta name="keywords" content="表情包切片,图片分割,九宫格切图,在线图片裁剪,表情包制作,Grid Splitter,Image Slicer,图片切片器,无需PS">
     <meta name="author" content="Li Zhaoshui">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph (社交媒体分享优化) -->
+    <!-- Open Graph -->
     <meta property="og:title" content="表情包切片工具 - 在线图片网格自动裁剪">
-    <meta property="og:description" content="一键将大图按网格切分为小图并打包下载，支持自定义行列和边框调整，本地安全处理。">
+    <meta property="og:description" content="一键将大图按网格切分为小图并打包下载，支持自定义行列、点击筛选和边框调整，本地安全处理。">
     <meta property="og:type" content="website">
 
     <!-- Tailwind CSS -->
@@ -25,7 +25,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
 
         body {
-            background-color: #f8fafc; /* 这里的背景色更接近参考图的冷灰/白 */
+            background-color: #f8fafc;
             color: #334155;
             font-family: "Inter", "Noto Sans SC", sans-serif;
         }
@@ -36,56 +36,31 @@
             transition: all 0.2s ease;
         }
         .upload-zone:hover, .upload-zone.drag-active {
-            background-color: #eff6ff; /* blue-50 */
+            background-color: #eff6ff;
             background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%233B82F6FF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
         }
 
-        /* 隐藏文件输入框 */
-        input[type="file"] {
-            display: none;
-        }
+        input[type="file"] { display: none; }
 
-        /* 预览区域背景纹理 */
-        .preview-pattern {
-            background-image: 
-                linear-gradient(45deg, #f1f5f9 25%, transparent 25%), 
-                linear-gradient(-45deg, #f1f5f9 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, #f1f5f9 75%), 
-                linear-gradient(-45deg, transparent 75%, #f1f5f9 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-        }
-        
-        /* 自定义滑块样式 */
-        input[type=range] {
-            -webkit-appearance: none; 
-            background: transparent; 
-        }
+        /* 滑块样式 */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            background: #2563eb;
-            cursor: pointer;
-            margin-top: -6px; 
+            height: 16px; width: 16px;
+            border-radius: 50%; background: #2563eb;
+            cursor: pointer; margin-top: -6px; 
             box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #e2e8f0;
-            border-radius: 2px;
+            width: 100%; height: 4px;
+            cursor: pointer; background: #e2e8f0; border-radius: 2px;
         }
-        input[type=range]:focus::-webkit-slider-runnable-track {
-            background: #cbd5e1;
-        }
+        input[type=range]:focus::-webkit-slider-runnable-track { background: #cbd5e1; }
     </style>
 </head>
 <body class="min-h-screen py-10 px-4 md:px-8 flex flex-col items-center relative">
 
-    <!-- Buy Me A Coffee Button -->
+    <!-- Buy Me A Coffee -->
     <a href="https://buymeacoffee.com/lizhaoshui" target="_blank" rel="noopener noreferrer" 
        class="absolute top-4 right-4 md:top-6 md:right-8 bg-[#FFDD00] text-slate-800 p-2.5 rounded-full shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 active:scale-95 group z-50" 
        title="Buy me a coffee">
@@ -101,7 +76,6 @@
     <!-- Header -->
     <header class="text-center mb-10">
         <div class="flex items-center justify-center gap-2 mb-2">
-            <!-- 剪刀图标 -->
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
                 <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
@@ -115,9 +89,8 @@
     <!-- Main Layout -->
     <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
-        <!-- Left Column: Controls (Approx 1/3 width) -->
+        <!-- Left Column: Controls -->
         <div class="lg:col-span-4 space-y-6 flex flex-col">
-            <!-- Added h-full to make it stretch to match right column height -->
             <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 h-full flex flex-col">
                 
                 <!-- 1. Upload -->
@@ -142,7 +115,6 @@
                         网格与裁剪设置
                     </h2>
                     
-                    <!-- Row/Col Inputs -->
                     <div class="grid grid-cols-2 gap-4 mb-5">
                         <div>
                             <label class="block text-xs font-medium text-slate-500 mb-1.5">列数 (宽)</label>
@@ -156,7 +128,7 @@
                         </div>
                     </div>
 
-                    <!-- Padding Slider (New Feature) -->
+                    <!-- Padding Slider -->
                     <div class="mb-5 bg-slate-50 p-3 rounded-lg border border-slate-100">
                         <div class="flex justify-between items-center mb-2">
                             <label class="text-xs font-bold text-slate-600 flex items-center">
@@ -187,7 +159,7 @@
 
             </div>
 
-            <!-- Success Message (Hidden by default) -->
+            <!-- Success Message -->
             <div id="successMsg" class="hidden bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex items-start gap-3">
                 <div class="bg-emerald-100 p-1 rounded-full text-emerald-600 mt-0.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -199,19 +171,34 @@
             </div>
         </div>
 
-        <!-- Right Column: Preview (Approx 2/3 width) -->
+        <!-- Right Column: Preview -->
         <div class="lg:col-span-8 flex flex-col">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col h-full min-h-[500px]">
                 
                 <!-- Preview Header -->
-                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-slate-800 flex items-center">
+                <div class="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center self-start sm:self-center">
                         <span class="text-slate-400 font-normal mr-2">3.</span>
                         预览确认
                     </h2>
-                    <span class="bg-slate-100 text-slate-500 text-xs font-semibold px-2.5 py-1 rounded-md">
-                        预期切片数量: <span id="sliceCount">24</span>
-                    </span>
+                    
+                    <div class="flex items-center gap-2 self-end sm:self-center">
+                        <!-- Select All Btn -->
+                        <button id="selectAllBtn" class="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors border border-blue-100" title="全选">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                            全选
+                        </button>
+                        
+                        <!-- Reset Btn -->
+                        <button id="resetBtn" class="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200" title="取消所有选择">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                            重置
+                        </button>
+
+                        <span class="bg-slate-100 text-slate-500 text-xs font-semibold px-2.5 py-1.5 rounded-md ml-1">
+                            切片: <span id="sliceCount">24</span>
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Canvas Area -->
@@ -228,14 +215,15 @@
                     <!-- Image Container -->
                     <div id="previewContainer" class="hidden shadow-lg rounded-lg overflow-hidden relative" style="max-width: 100%; max-height: 600px;">
                         <img id="sourceImage" src="" alt="Source" class="block max-w-full h-auto" style="max-height: 600px;">
-                        <canvas id="gridOverlay" class="absolute top-0 left-0 w-full h-full pointer-events-none"></canvas>
+                        <!-- Updated canvas with cursor-pointer -->
+                        <canvas id="gridOverlay" class="absolute top-0 left-0 w-full h-full cursor-pointer"></canvas>
                     </div>
                 </div>
 
                 <!-- Footer Tip -->
                 <div class="px-6 py-4 bg-white border-t border-slate-100 text-center">
                     <p class="text-xs text-slate-400">
-                        提示: <span class="text-red-500 font-bold">红色虚线</span>为基础网格，<span class="text-blue-500 font-bold">蓝色实线</span>为实际保留区域 (Padding后)。
+                        提示: <span class="text-red-500 font-bold">红色虚线</span>为网格，<span class="text-blue-500 font-bold">点击网格</span>可选定下载，<span class="text-green-600 font-bold">绿色</span>为选中。
                     </p>
                 </div>
 
@@ -272,6 +260,9 @@
         const successMsg = document.getElementById('successMsg');
         const successText = document.getElementById('successText');
 
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
         const processCanvas = document.getElementById('processCanvas');
         const ctx = processCanvas.getContext('2d', { willReadFrequently: true });
 
@@ -279,6 +270,7 @@
         let currentFile = null;
         let originalImageWidth = 0;
         let originalImageHeight = 0;
+        let selectedIndices = new Set(); // Store indices of selected cells
 
         // --- Event Listeners ---
 
@@ -302,14 +294,47 @@
             }
         });
 
-        // Inputs
-        colInput.addEventListener('input', () => { updateGridOverlay(); updateCount(); });
-        rowInput.addEventListener('input', () => { updateGridOverlay(); updateCount(); });
+        // Inputs - Reset selections when grid changes
+        colInput.addEventListener('input', () => { 
+            selectedIndices.clear(); 
+            updateGridOverlay(); 
+            updateButtonState();
+        });
+        rowInput.addEventListener('input', () => { 
+            selectedIndices.clear(); 
+            updateGridOverlay(); 
+            updateButtonState();
+        });
         paddingInput.addEventListener('input', () => {
             paddingValue.textContent = paddingInput.value + 'px';
             updateGridOverlay();
         });
         
+        // Canvas Click for Selection
+        gridOverlay.addEventListener('click', handleGridClick);
+
+        // Select All & Reset
+        selectAllBtn.addEventListener('click', () => {
+            if (!sourceImage.src) return;
+            const cols = parseInt(colInput.value) || 6;
+            const rows = parseInt(rowInput.value) || 4;
+            const total = cols * rows;
+            
+            selectedIndices.clear();
+            for(let i=0; i<total; i++) {
+                selectedIndices.add(i);
+            }
+            updateGridOverlay();
+            updateButtonState();
+        });
+
+        resetBtn.addEventListener('click', () => {
+            if (!sourceImage.src) return;
+            selectedIndices.clear();
+            updateGridOverlay();
+            updateButtonState();
+        });
+
         // Button
         processBtn.addEventListener('click', processAndZip);
         
@@ -332,17 +357,14 @@
                     originalImageWidth = sourceImage.naturalWidth;
                     originalImageHeight = sourceImage.naturalHeight;
                     
-                    // Show Preview, Hide Empty State
+                    // Reset State
+                    selectedIndices.clear();
                     emptyState.classList.add('hidden');
                     previewContainer.classList.remove('hidden');
-                    
-                    // Enable Button
                     processBtn.disabled = false;
-                    
-                    // Hide previous success msg
                     successMsg.classList.add('hidden');
 
-                    updateCount();
+                    updateButtonState();
                     // Wait a tick for render
                     setTimeout(updateGridOverlay, 50);
                 };
@@ -350,10 +372,55 @@
             reader.readAsDataURL(file);
         }
 
-        function updateCount() {
-            const cols = parseInt(colInput.value) || 0;
-            const rows = parseInt(rowInput.value) || 0;
-            sliceCountDisplay.textContent = cols * rows;
+        function handleGridClick(e) {
+            if (!sourceImage.src) return;
+
+            const rect = gridOverlay.getBoundingClientRect();
+            // Calculate scale factors between visual size and actual canvas size
+            // Note: gridOverlay.width/height is the drawing buffer size (matched to sourceImage in updateGridOverlay)
+            // rect.width/height is the CSS size.
+            // But we set gridOverlay.width = rect.width in updateGridOverlay, so they should match 1:1 visually
+            
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const cols = parseInt(colInput.value) || 6;
+            const rows = parseInt(rowInput.value) || 4;
+            
+            const cellW = gridOverlay.width / cols;
+            const cellH = gridOverlay.height / rows;
+
+            const colIndex = Math.floor(x / cellW);
+            const rowIndex = Math.floor(y / cellH);
+
+            if (colIndex >= 0 && colIndex < cols && rowIndex >= 0 && rowIndex < rows) {
+                // Linear index calculation
+                const index = rowIndex * cols + colIndex;
+                
+                if (selectedIndices.has(index)) {
+                    selectedIndices.delete(index);
+                } else {
+                    selectedIndices.add(index);
+                }
+                
+                updateGridOverlay();
+                updateButtonState();
+            }
+        }
+
+        function updateButtonState() {
+            const cols = parseInt(colInput.value) || 6;
+            const rows = parseInt(rowInput.value) || 4;
+            const total = cols * rows;
+            const selected = selectedIndices.size;
+            
+            sliceCountDisplay.textContent = total;
+
+            if (selected > 0) {
+                btnText.textContent = `下载选中 (${selected})`;
+            } else {
+                btnText.textContent = `下载全部 (${total})`;
+            }
         }
 
         function updateGridOverlay() {
@@ -363,7 +430,6 @@
             const rows = parseInt(rowInput.value) || 4;
             const padding = parseInt(paddingInput.value) || 0;
 
-            // Important: Set canvas resolution to match the RENDERED size of the image
             const rect = sourceImage.getBoundingClientRect();
             gridOverlay.width = rect.width;
             gridOverlay.height = rect.height;
@@ -374,7 +440,51 @@
             const cellW = gridOverlay.width / cols;
             const cellH = gridOverlay.height / rows;
 
-            // 1. Draw Basic Grid (Red Dashed)
+            // Scale Factor = Display Width / Source Width
+            const scaleFactor = gridOverlay.width / originalImageWidth;
+            const displayPadding = padding * scaleFactor;
+
+            // Draw Grid & Selection
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const index = r * cols + c;
+                    const x = c * cellW;
+                    const y = r * cellH;
+                    
+                    const padX = x + displayPadding;
+                    const padY = y + displayPadding;
+                    const padW = cellW - 2 * displayPadding;
+                    const padH = cellH - 2 * displayPadding;
+
+                    // 1. If Selected: Draw Green Overlay & Checkmark
+                    if (selectedIndices.has(index)) {
+                        // Green Overlay
+                        oCtx.fillStyle = 'rgba(34, 197, 94, 0.4)'; // green-500 with opacity
+                        if (padW > 0 && padH > 0) {
+                             oCtx.fillRect(padX, padY, padW, padH);
+                        } else {
+                             oCtx.fillRect(x, y, cellW, cellH);
+                        }
+
+                        // Checkmark
+                        oCtx.fillStyle = '#ffffff';
+                        oCtx.font = "bold 24px Arial";
+                        oCtx.textAlign = "center";
+                        oCtx.textBaseline = "middle";
+                        oCtx.fillText("✓", x + cellW/2, y + cellH/2);
+                    }
+                    
+                    // 2. Draw Padding Box (Blue Line) if padding > 0
+                    if (padding > 0 && padW > 0 && padH > 0) {
+                        oCtx.strokeStyle = 'rgba(37, 99, 235, 0.9)'; // Blue-600
+                        oCtx.lineWidth = 1.5;
+                        oCtx.setLineDash([]);
+                        oCtx.strokeRect(padX, padY, padW, padH);
+                    }
+                }
+            }
+
+            // 3. Draw Basic Grid Lines (Red Dashed) on top
             oCtx.strokeStyle = 'rgba(239, 68, 68, 0.6)'; // Red-500
             oCtx.lineWidth = 1;
             oCtx.setLineDash([4, 2]); 
@@ -392,33 +502,7 @@
             }
             oCtx.stroke();
             
-            // 2. Draw Padding Areas (Blue Solid Box)
-            // We need to scale the source padding value to the display canvas size
-            // Scale Factor = Display Width / Source Width
-            const scaleFactor = gridOverlay.width / originalImageWidth;
-            const displayPadding = padding * scaleFactor;
-
-            if (padding > 0) {
-                oCtx.strokeStyle = 'rgba(37, 99, 235, 0.9)'; // Blue-600
-                oCtx.lineWidth = 1.5;
-                oCtx.setLineDash([]); // Solid line for actual cut area
-
-                for (let r = 0; r < rows; r++) {
-                    for (let c = 0; c < cols; c++) {
-                        const x = c * cellW + displayPadding;
-                        const y = r * cellH + displayPadding;
-                        const w = cellW - 2 * displayPadding;
-                        const h = cellH - 2 * displayPadding;
-                        
-                        // Only draw if dimensions are positive
-                        if (w > 0 && h > 0) {
-                            oCtx.strokeRect(x, y, w, h);
-                        }
-                    }
-                }
-            }
-            
-            // Border for grid container
+            // Border
             oCtx.setLineDash([]);
             oCtx.strokeStyle = 'rgba(239, 68, 68, 0.3)';
             oCtx.strokeRect(0, 0, gridOverlay.width, gridOverlay.height);
@@ -450,13 +534,27 @@
             const cellW = originalImageWidth / cols;
             const cellH = originalImageHeight / rows;
 
-            let count = 0;
+            let processedCount = 0; // Number of items actually added to zip
+            let globalIndex = 0;    // Absolute index of the cell (0 to 23)
             const promises = [];
+
+            // Check if we are in "Selection Mode" or "Download All Mode"
+            const hasSelection = selectedIndices.size > 0;
 
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
-                    count++;
-                    const fileName = `${prefix}_${String(count).padStart(2, '0')}.png`;
+                    const currentIndex = globalIndex++; // Store and increment
+                    
+                    // If selection exists, SKIP this cell if it's NOT in the set
+                    if (hasSelection && !selectedIndices.has(currentIndex)) {
+                        continue; 
+                    }
+
+                    // For filename, we can either use the absolute index+1, or a running counter.
+                    // Usually keeping the original order number is better for stickers (sticker_03.png),
+                    // but if downloading "Selected", maybe a compact list is better?
+                    // Let's use the absolute index to keep mapping clear.
+                    const fileName = `${prefix}_${String(currentIndex + 1).padStart(2, '0')}.png`;
 
                     const p = new Promise((resolve) => {
                         const cellCanvas = document.createElement('canvas');
@@ -467,9 +565,8 @@
                         const srcW = cellW - 2 * padding;
                         const srcH = cellH - 2 * padding;
 
-                        // Safety check for invalid dimensions
                         if (srcW <= 0 || srcH <= 0) {
-                            resolve(); // Skip or resolve empty
+                            resolve(); 
                             return;
                         }
 
@@ -486,6 +583,7 @@
                         cellCanvas.toBlob((blob) => {
                             if (blob) {
                                 folder.file(fileName, blob);
+                                processedCount++;
                             }
                             resolve();
                         }, 'image/png');
@@ -495,6 +593,14 @@
             }
 
             await Promise.all(promises);
+
+            if (processedCount === 0) {
+                // Should technically not happen due to UI logic, but safe guard
+                processBtn.disabled = false;
+                btnText.textContent = originalBtnText;
+                alert("没有可下载的切片");
+                return;
+            }
 
             btnText.textContent = "正在压缩...";
 
@@ -511,13 +617,13 @@
                 btnText.textContent = originalBtnText;
                 
                 // Show Success
-                successText.textContent = `已成功打包 ${count} 张表情包 (前缀: ${prefix})`;
+                successText.textContent = `已成功打包 ${processedCount} 张表情包 (前缀: ${prefix})`;
                 successMsg.classList.remove('hidden');
             });
         }
         
         // 初始化
-        updateCount();
+        updateButtonState();
     </script>
 </body>
 </html>
